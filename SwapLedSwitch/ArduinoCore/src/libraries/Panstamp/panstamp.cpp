@@ -104,7 +104,7 @@ void PANSTAMP::rxOff(void)
 void PANSTAMP::init(uint8_t freq, uint8_t mode)
 {
   // Calibrate internal RC oscillator
-  rcOscCalibrate();
+ //// rcOscCalibrate();
 
   // Setup CC1101
   radio.init(freq, mode);

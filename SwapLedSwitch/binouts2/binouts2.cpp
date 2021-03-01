@@ -54,6 +54,8 @@
 #include "regtable.h"
 #include "swap.h"
 
+#define SERIAL_SPEED             38400
+
 
 /**
  * Maximum repeating count
@@ -66,7 +68,7 @@ const byte maxRepeaterHop = 5;
 //uint8_t pwmPin[] = {5, 6, 9};
 // Binary output pins (Arduino digital pins)
 
-uint8_t binaryPin[] = {7};
+uint8_t binaryPin[] = {7 , 8};
 // PWM output pins (Arduino digital pins)
 uint8_t pwmPin[] = {5, 6, 9};
 
@@ -89,7 +91,7 @@ void setup()
   for(i=0 ; i<sizeof(pwmPin) ; i++)
    pinMode(pwmPin[i], OUTPUT);
 
-   Serial.begin(9600);
+   Serial.begin(SERIAL_SPEED);
 
   // Init SWAP stack
   swap.init();
@@ -129,6 +131,7 @@ void loop()
   digitalWrite(LED, LOW);
   */
   swap.getRegister(REGI_BINOUTPUT0)->getData();
+  //Serial.println("Modem ready!\n");
   delay(1000);
   
 }

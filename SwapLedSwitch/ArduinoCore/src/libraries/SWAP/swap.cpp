@@ -163,7 +163,8 @@ void SWAP::init(void)
   // Correct signature in non-volatile memory?
   if ((signature[0] != NVOLAT_SIGNATURE_HIGH) || (signature[1] != NVOLAT_SIGNATURE_LOW))
     nvolatToFactoryDefaults(); // Copy default settings in non-volatile memory  
-
+  //rcOscCalibrate();
+  
   // Intialize registers
   for(i=0 ; i<regTableSize ; i++)
     regTable[i]->init();
@@ -171,6 +172,7 @@ void SWAP::init(void)
   // Config radio settings
   panstamp.radio.devAddress = devAddress & 0xFF; 
   panstamp.radio.init();
+  delayMicroseconds(50); 
   //panstamp.radio.setCCregs();
   
   // Attach RF ISR
