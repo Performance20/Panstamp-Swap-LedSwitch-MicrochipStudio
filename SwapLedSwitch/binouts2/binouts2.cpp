@@ -114,6 +114,8 @@ void setup()
   // Transmit initial PWM values
   for(i=0 ; i<sizeof(pwmPin) ; i++)
     swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
+	
+  Serial.println("Modem ready!\n");
 
 }
 
@@ -125,12 +127,19 @@ void setup()
 
 void loop()
 {
+	int i;
 	/*
   digitalWrite(LED, HIGH);
   delay(100);
   digitalWrite(LED, LOW);
   */
-  swap.getRegister(REGI_BINOUTPUT0)->getData();
+	/*
+   for(i=0 ; i<sizeof(binaryPin) ; i++)
+   swap.getRegister(REGI_BINOUTPUT0 + i)->getData();
+   // Transmit initial PWM values
+   for(i=0 ; i<sizeof(pwmPin) ; i++)
+   swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
+*/
   //Serial.println("Modem ready!\n");
   delay(1000);
   

@@ -53,22 +53,10 @@ DEFINE_COMMON_REGISTERS()
 byte dtRepeaterCfg[1];       // Repeater config
 REGISTER regRepeaterCfg(dtRepeaterCfg, sizeof(dtRepeaterCfg), NULL, NULL);
 // Binary output registers
-byte dtBinOutput0[1];       // Binary output state 0
+byte dtBinOutput0[1] = { 1 };       // Binary output state 0
 REGISTER regBinOutput0(dtBinOutput0, sizeof(dtBinOutput0), NULL, &setBinOutput);
 byte dtBinOutput1[1];       // Binary output state 1
 REGISTER regBinOutput1(dtBinOutput1, sizeof(dtBinOutput1), NULL, &setBinOutput);
-byte dtBinOutput2[1];       // Binary output state 2
-REGISTER regBinOutput2(dtBinOutput2, sizeof(dtBinOutput2), NULL, &setBinOutput);
-byte dtBinOutput3[1];       // Binary output state 3
-REGISTER regBinOutput3(dtBinOutput3, sizeof(dtBinOutput3), NULL, &setBinOutput);
-byte dtBinOutput4[1];       // Binary output state 4
-REGISTER regBinOutput4(dtBinOutput4, sizeof(dtBinOutput4), NULL, &setBinOutput);
-byte dtBinOutput5[1];       // Binary output state 5
-REGISTER regBinOutput5(dtBinOutput5, sizeof(dtBinOutput5), NULL, &setBinOutput);
-byte dtBinOutput6[1];       // Binary output state 6
-REGISTER regBinOutput6(dtBinOutput6, sizeof(dtBinOutput6), NULL, &setBinOutput);
-byte dtBinOutput7[1];       // Binary output state 7
-REGISTER regBinOutput7(dtBinOutput7, sizeof(dtBinOutput7), NULL, &setBinOutput);
 // PWM output registers
 byte dtPwmOutput0[1];       // PWM output 0
 REGISTER regPwmOutput0(dtPwmOutput0, sizeof(dtPwmOutput0), NULL, &setPwmOutput);
@@ -76,8 +64,6 @@ byte dtPwmOutput1[1];       // PWM output 1
 REGISTER regPwmOutput1(dtPwmOutput1, sizeof(dtPwmOutput1), NULL, &setPwmOutput);
 byte dtPwmOutput2[1];       // PWM output 2
 REGISTER regPwmOutput2(dtPwmOutput2, sizeof(dtPwmOutput2), NULL, &setPwmOutput);
-byte dtPwmOutput3[1];       // PWM output 3
-REGISTER regPwmOutput3(dtPwmOutput3, sizeof(dtPwmOutput3), NULL, &setPwmOutput);
 
 /**
  * Initialize table of registers
@@ -86,16 +72,9 @@ DECLARE_REGISTERS_START()
   &regRepeaterCfg, // Not used
   &regBinOutput0,
   &regBinOutput1,
-  &regBinOutput2,
-  &regBinOutput3,
-  &regBinOutput4,
-  &regBinOutput5,
-  &regBinOutput6,
-  &regBinOutput7,
   &regPwmOutput0,
   &regPwmOutput1,
-  &regPwmOutput2,
-  &regPwmOutput3
+  &regPwmOutput2
 DECLARE_REGISTERS_END()
 
 /**
@@ -124,6 +103,7 @@ const void setBinOutput(byte rId, byte *state)
 
   // Control pin
   digitalWrite(binaryPin[output], state[0]);
+  Serial.print(state[0]);
 }
 
 /**
