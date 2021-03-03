@@ -171,10 +171,12 @@ void SWAP::init(void)
  
   // Config radio settings
   panstamp.radio.devAddress = devAddress & 0xFF; 
-  panstamp.radio.init();
-  delayMicroseconds(50); 
+  //panstamp.radio.init();
+  panstamp.init();
+  panstamp.setHighTxPower();
+  //delayMicroseconds(50); 
   //panstamp.radio.setCCregs();
-  
+   
   // Attach RF ISR
   panstamp.attachInterrupt(pacKetReceived);
 }

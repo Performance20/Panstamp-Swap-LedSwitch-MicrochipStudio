@@ -102,8 +102,7 @@ const void setBinOutput(byte rId, byte *state)
   regTable[rId]->value[0] = state[0];
 
   // Control pin
-  digitalWrite(binaryPin[output], state[0]);
-  Serial.print(state[0]);
+  //digitalWrite(binaryPin[output], state[0]);
 }
 
 /**
@@ -122,5 +121,5 @@ const void setPwmOutput(byte rId, byte *level)
   regTable[rId]->value[0] = level[0];
 
   // Control PWM output
-  analogWrite(pwmPin[output], level[0]);
+  //analogWrite(pwmPin[output], level[0]);
 }

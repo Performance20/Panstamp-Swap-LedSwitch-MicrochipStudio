@@ -97,7 +97,7 @@ void setup()
   swap.init();
 
   // Optionally set transmission amplifier to its maximum level (10dB)
-  panstamp.setHighTxPower();
+  //panstamp.setHighTxPower();
   
   
   // Enable repeater mode
@@ -108,15 +108,14 @@ void setup()
 
   // Enter SYNC state
   swap.enterSystemState(SYSTATE_RXON);
+  
+  delay(50);  //   
   // Transmit initial binary states
   for(i=0 ; i<sizeof(binaryPin) ; i++)
     swap.getRegister(REGI_BINOUTPUT0 + i)->getData();
   // Transmit initial PWM values
   for(i=0 ; i<sizeof(pwmPin) ; i++)
     swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
-	
-  Serial.println("Modem ready!\n");
-
 }
 
 /**
@@ -141,6 +140,6 @@ void loop()
    swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
 */
   //Serial.println("Modem ready!\n");
-  delay(1000);
+  delay(100);
   
 }
