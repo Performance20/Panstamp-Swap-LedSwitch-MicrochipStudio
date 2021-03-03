@@ -105,6 +105,7 @@ void setup()
 
   // Transmit product code
   swap.getRegister(REGI_PRODUCTCODE)->getData();
+  swap.getRegister(REGI_TXINTERVAL)->getData();
 
   // Enter SYNC state
   swap.enterSystemState(SYSTATE_RXON);

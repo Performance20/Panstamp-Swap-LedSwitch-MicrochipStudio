@@ -53,7 +53,7 @@ DEFINE_COMMON_REGISTERS()
 byte dtRepeaterCfg[1];       // Repeater config
 REGISTER regRepeaterCfg(dtRepeaterCfg, sizeof(dtRepeaterCfg), NULL, NULL);
 // Binary output registers
-byte dtBinOutput0[1] = { 1 };       // Binary output state 0
+byte dtBinOutput0[1];       // Binary output state 0
 REGISTER regBinOutput0(dtBinOutput0, sizeof(dtBinOutput0), NULL, &setBinOutput);
 byte dtBinOutput1[1];       // Binary output state 1
 REGISTER regBinOutput1(dtBinOutput1, sizeof(dtBinOutput1), NULL, &setBinOutput);
