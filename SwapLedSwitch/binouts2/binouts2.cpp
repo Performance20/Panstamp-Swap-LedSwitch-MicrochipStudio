@@ -133,14 +133,15 @@ void loop()
   delay(100);
   digitalWrite(LED, LOW);
   */
-	/*
+	
    for(i=0 ; i<sizeof(binaryPin) ; i++)
    swap.getRegister(REGI_BINOUTPUT0 + i)->getData();
+   /*
    // Transmit initial PWM values
    for(i=0 ; i<sizeof(pwmPin) ; i++)
    swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
 */
   //Serial.println("Modem ready!\n");
-  delay(100);
+  delay(1000);
   
 }
