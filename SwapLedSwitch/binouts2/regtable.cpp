@@ -37,9 +37,9 @@
 /**
  * Declaration of custom functions
  */
-const void setBinOutput(byte rId, byte *state);
-const void setPwmOutput(byte rId, byte *level);
-const void getHelloWorld(byte rId, byte *level);
+const void updtVoltSupply(byte rId);
+const void setled0(byte rId, byte *state);
+const void setled1(byte rId, byte *state);
 
 /**
  * Definition of common registers
@@ -50,31 +50,27 @@ DEFINE_COMMON_REGISTERS()
  * Definition of custom registers
  */
 // Repater config. Not being used by the application. Only kept for backward compatibility
+/*
 byte dtRepeaterCfg[1];       // Repeater config
 REGISTER regRepeaterCfg(dtRepeaterCfg, sizeof(dtRepeaterCfg), NULL, NULL);
 // Binary output registers
-byte dtBinOutput0[1];       // Binary output state 0
-REGISTER regBinOutput0(dtBinOutput0, sizeof(dtBinOutput0), NULL, &setBinOutput);
-byte dtBinOutput1[1];       // Binary output state 1
-REGISTER regBinOutput1(dtBinOutput1, sizeof(dtBinOutput1), NULL, &setBinOutput);
-// PWM output registers
-byte dtPwmOutput0[1];       // PWM output 0
-REGISTER regPwmOutput0(dtPwmOutput0, sizeof(dtPwmOutput0), NULL, &setPwmOutput);
-byte dtPwmOutput1[1];       // PWM output 1
-REGISTER regPwmOutput1(dtPwmOutput1, sizeof(dtPwmOutput1), NULL, &setPwmOutput);
-byte dtPwmOutput2[1];       // PWM output 2
-REGISTER regPwmOutput2(dtPwmOutput2, sizeof(dtPwmOutput2), NULL, &setPwmOutput);
+*/
+// Voltage supply
+static byte dtVoltSupply[2];
+REGISTER regVoltSupply(dtVoltSupply, sizeof(dtVoltSupply), &updtVoltSupply, NULL);
+byte led0[1];       // led0 state
+REGISTER regLed0(led0, sizeof(led0), NULL, &setled0);
+byte led1[1];       // led1 state
+REGISTER regLed1(led1, sizeof(led1), NULL, &setled1);
+
 
 /**
  * Initialize table of registers
  */
 DECLARE_REGISTERS_START()
-  &regRepeaterCfg, // Not used
-  &regBinOutput0,
-  &regBinOutput1,
-  &regPwmOutput0,
-  &regPwmOutput1,
-  &regPwmOutput2
+  &regVoltSupply,
+  &regLed0,
+  &regLed1,
 DECLARE_REGISTERS_END()
 
 /**
@@ -87,39 +83,47 @@ DEFINE_COMMON_CALLBACKS()
  */
 
 /**
- * setBinOutput
+ * updtVoltSupply
  *
- * Set binary output
+ * Measure voltage supply and update register
  *
- * 'rId'     Register ID
- * 'state'   New output level
+ * 'rId'  Register ID
  */
-const void setBinOutput(byte rId, byte *state)
+const void updtVoltSupply(byte rId)
+{  
+  unsigned long result = panstamp.getVcc();
+  
+  // Update register value
+  regTable[rId]->value[0] = (result >> 8) & 0xFF;
+  regTable[rId]->value[1] = result & 0xFF;
+}
+
+/**
+ * setled0
+ *
+ * Set setled0 output
+ *
+ */
+const void setled0(byte rId, byte *state)
 {
-  byte output = rId - REGI_BINOUTPUT0;
+    // Update register
+   regTable[rId]->value[0] = state[0];
 
-  // Update register
-  regTable[rId]->value[0] = state[0];
-
-  // Control pin
+  // set led
   //digitalWrite(binaryPin[output], state[0]);
 }
 
 /**
- * setPwmOutput
+ * setled0
  *
- * Set PWM level
+ * Set setled0 output
  *
- * 'rId'     Register ID
- * 'level'   New PWM level
  */
-const void setPwmOutput(byte rId, byte *level)
+const void setled1(byte rId, byte *state)
 {
-  byte output = rId - REGI_PWMOUTPUT0;
-  
-  // Update register
-  regTable[rId]->value[0] = level[0];
+    // Update register
+  regTable[rId]->value[0] = state[0];
 
-  // Control PWM output
-  //analogWrite(pwmPin[output], level[0]);
+  // set led
+  //digitalWrite(binaryPin[output], state[0]);
 }

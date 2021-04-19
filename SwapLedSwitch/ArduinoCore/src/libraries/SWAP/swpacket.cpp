@@ -170,10 +170,11 @@ bool SWPACKET::send(void)
     i--;
     delay(SWAP_TX_DELAY);
   }
-
+ Serial.print(res);
+ Serial.println("\n");
   return res;
+  
 }
-
 /**
  * smartEncrypt
  * 

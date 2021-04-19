@@ -82,26 +82,24 @@ void setup()
 {
   int i;
   
-  //pinMode(LED, OUTPUT);
-  // digitalWrite(LED, LOW);
+  INIT_ONBOARD_LED();
+  digitalWrite(LED, LOW);
 
   // Configure output pins
   for(i=0 ; i<sizeof(binaryPin) ; i++)
    pinMode(binaryPin[i], OUTPUT);
-  for(i=0 ; i<sizeof(pwmPin) ; i++)
-   pinMode(pwmPin[i], OUTPUT);
+ // for(i=0 ; i<sizeof(pwmPin) ; i++)
+  // pinMode(pwmPin[i], OUTPUT);
 
    Serial.begin(SERIAL_SPEED);
-
   // Init SWAP stack
   swap.init();
-
   // Optionally set transmission amplifier to its maximum level (10dB)
-  //panstamp.setHighTxPower();
+  panstamp.setHighTxPower();
   
   
   // Enable repeater mode
-  swap.enableRepeater(maxRepeaterHop);
+  //swap.enableRepeater(maxRepeaterHop);
 
   // Transmit product code
   swap.getRegister(REGI_PRODUCTCODE)->getData();
@@ -109,14 +107,16 @@ void setup()
 
   // Enter SYNC state
   swap.enterSystemState(SYSTATE_RXON);
-  
+
   delay(50);  //   
   // Transmit initial binary states
-  for(i=0 ; i<sizeof(binaryPin) ; i++)
-    swap.getRegister(REGI_BINOUTPUT0 + i)->getData();
+  //for(i=0 ; i<sizeof(binaryPin) ; i++)
+  swap.getRegister(REGI_VOLTSUPPLY)->getData();
+  swap.getRegister(REGI_LED0)->getData();
+  swap.getRegister(REGI_LED1)->getData();
   // Transmit initial PWM values
-  for(i=0 ; i<sizeof(pwmPin) ; i++)
-    swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
+  //for(i=0 ; i<sizeof(pwmPin) ; i++)
+  //  swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
 }
 
 /**
@@ -128,19 +128,24 @@ void setup()
 void loop()
 {
 	int i;
-	/*
+	
   digitalWrite(LED, HIGH);
-  delay(100);
+  delay(300);
   digitalWrite(LED, LOW);
-  */
-	/*
-   for(i=0 ; i<sizeof(binaryPin) ; i++)
-   swap.getRegister(REGI_BINOUTPUT0 + i)->getData();
+  
+	
+   //for(i=0 ; i<sizeof(binaryPin) ; i++)
+   //swap.getRegister(REGI_BINOUTPUT0 + i)->getData();
+   
    // Transmit initial PWM values
-   for(i=0 ; i<sizeof(pwmPin) ; i++)
-   swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
-*/
-  //Serial.println("Modem ready!\n");
-  delay(100);
+   //for(i=0 ; i<sizeof(pwmPin) ; i++)
+   //swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
+
+   //Serial.println("Modem ready!\n");
+   swap.getRegister(REGI_VOLTSUPPLY)->getData();
+   swap.getRegister(REGI_LED0)->getData();
+   swap.getRegister(REGI_LED1)->getData();
+   
+  delay(700);
   
 }

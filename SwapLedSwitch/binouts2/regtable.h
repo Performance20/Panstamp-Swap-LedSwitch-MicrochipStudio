@@ -30,23 +30,15 @@
 #include "register.h"
 #include "commonregs.h"
 
-// Binary output pins (Arduino digital pins)
-extern uint8_t binaryPin[];
-// PWM output pins (Arduino digital pins)
-extern uint8_t pwmPin[];
-
 
 
 /**
  * Register indexes
  */
 DEFINE_REGINDEX_START()
-  REGI_REPEATERCFG,
-  REGI_BINOUTPUT0,
-  REGI_BINOUTPUT1,
-  REGI_PWMOUTPUT0,
-  REGI_PWMOUTPUT1,
-  REGI_PWMOUTPUT2
+ REGI_VOLTSUPPLY,
+ REGI_LED0,
+ REGI_LED1,
 DEFINE_REGINDEX_END()
 
 #endif
