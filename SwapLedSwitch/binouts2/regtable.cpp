@@ -37,9 +37,10 @@
 /**
  * Declaration of custom functions
  */
+
+const void updtVoltSupply(byte rId);
 const void setBinOutput(byte rId, byte *state);
 const void setPwmOutput(byte rId, byte *level);
-const void getHelloWorld(byte rId, byte *level);
 
 /**
  * Definition of common registers
@@ -49,9 +50,13 @@ DEFINE_COMMON_REGISTERS()
 /*
  * Definition of custom registers
  */
+
 // Repater config. Not being used by the application. Only kept for backward compatibility
 byte dtRepeaterCfg[1];       // Repeater config
 REGISTER regRepeaterCfg(dtRepeaterCfg, sizeof(dtRepeaterCfg), NULL, NULL);
+// Voltage supply
+static byte dtVoltSupply[2];
+REGISTER regVoltSupply(dtVoltSupply, sizeof(dtVoltSupply), &updtVoltSupply, NULL);
 // Binary output registers
 byte dtBinOutput0[1];       // Binary output state 0
 REGISTER regBinOutput0(dtBinOutput0, sizeof(dtBinOutput0), NULL, &setBinOutput);
@@ -62,19 +67,17 @@ byte dtPwmOutput0[1];       // PWM output 0
 REGISTER regPwmOutput0(dtPwmOutput0, sizeof(dtPwmOutput0), NULL, &setPwmOutput);
 byte dtPwmOutput1[1];       // PWM output 1
 REGISTER regPwmOutput1(dtPwmOutput1, sizeof(dtPwmOutput1), NULL, &setPwmOutput);
-byte dtPwmOutput2[1];       // PWM output 2
-REGISTER regPwmOutput2(dtPwmOutput2, sizeof(dtPwmOutput2), NULL, &setPwmOutput);
 
 /**
  * Initialize table of registers
  */
 DECLARE_REGISTERS_START()
   &regRepeaterCfg, // Not used
+  &regVoltSupply,
   &regBinOutput0,
   &regBinOutput1,
   &regPwmOutput0,
-  &regPwmOutput1,
-  &regPwmOutput2
+  &regPwmOutput1
 DECLARE_REGISTERS_END()
 
 /**
@@ -85,6 +88,22 @@ DEFINE_COMMON_CALLBACKS()
 /**
  * Definition of custom getter/setter callback functions
  */
+
+/**
+ * updtVoltSupply
+ *
+ * Measure voltage supply and update register
+ *
+ * 'rId'  Register ID
+ */
+const void updtVoltSupply(byte rId)
+{  
+  unsigned long result = panstamp.getVcc();
+  
+  // Update register value
+  regTable[rId]->value[0] = (result >> 8) & 0xFF;
+  regTable[rId]->value[1] = result & 0xFF;
+}
 
 /**
  * setBinOutput

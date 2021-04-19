@@ -68,9 +68,9 @@ const byte maxRepeaterHop = 5;
 //uint8_t pwmPin[] = {5, 6, 9};
 // Binary output pins (Arduino digital pins)
 
-uint8_t binaryPin[] = {7 , 8};
+uint8_t binaryPin[] = {3 , 6};
 // PWM output pins (Arduino digital pins)
-uint8_t pwmPin[] = {5, 6, 9};
+uint8_t pwmPin[] = {14, 15};
 
 
 /**
@@ -82,8 +82,8 @@ void setup()
 {
   int i;
   
-  //pinMode(LED, OUTPUT);
-  // digitalWrite(LED, LOW);
+  INIT_ONBOARD_LED() 
+  digitalWrite(LED, LOW);
 
   // Configure output pins
   for(i=0 ; i<sizeof(binaryPin) ; i++)
@@ -111,6 +111,7 @@ void setup()
   swap.enterSystemState(SYSTATE_RXON);
   
   delay(50);  //   
+  swap.getRegister(REGI_VOLTSUPPLY)->getData();
   // Transmit initial binary states
   for(i=0 ; i<sizeof(binaryPin) ; i++)
     swap.getRegister(REGI_BINOUTPUT0 + i)->getData();
@@ -128,12 +129,12 @@ void setup()
 void loop()
 {
 	int i;
-	/*
-  digitalWrite(LED, HIGH);
-  delay(100);
-  digitalWrite(LED, LOW);
-  */
 	
+  digitalWrite(LED, HIGH);
+  delay(300);
+  digitalWrite(LED, LOW);
+  
+	 swap.getRegister(REGI_VOLTSUPPLY)->getData();
    for(i=0 ; i<sizeof(binaryPin) ; i++)
    swap.getRegister(REGI_BINOUTPUT0 + i)->getData();
    /*
@@ -142,6 +143,9 @@ void loop()
    swap.getRegister(REGI_PWMOUTPUT0 + i)->getData();
 */
   //Serial.println("Modem ready!\n");
-  delay(1000);
+  //delay(700);
+
+    // Sleep
+   swap.goToSleep();
   
 }

@@ -41,7 +41,7 @@
 #define PA_EN  (3) //  18 = PD3
 
 // On-board LED
-#define ONBOARD_LED (9)  // PB1
+#define ONBOARD_LED (4)  // PD4
 #define LED      ONBOARD_LED
 #define INIT_ONBOARD_LED()    pinMode(ONBOARD_LED, OUTPUT)
 
